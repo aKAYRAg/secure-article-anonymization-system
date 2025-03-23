@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Makale Detay</title>
+</head>
+<body>
+    <h1>Makale Detay</h1>
+    
+    <h2>{{ makale.makale_adi }}</h2>
+    <p><strong>Yayın Tarihi:</strong> {{ makale.makale_tarih }}</p>
+    
+    <h3>Makale İçeriği:</h3>
+    <p>{{ makale.makale_icerik }}</p>
+
+    <!-- Anahtar Kelime Seçimi -->
+    <h3>Anahtar Kelimeler</h3>
+    <form method="post">
+        {% csrf_token %}
+        {% for keyword in oneri_anahtar_kelime %}
+            <input type="checkbox" name="anahtar_kelime" value="{{ keyword }}"> {{ keyword }}<br>
+        {% endfor %}
+        <button type="submit">Seçili Anahtar Kelimeleri Kaydet</button>
+    </form>
+
+    <!-- Anonimleştirme Butonu -->
+    <h3>Anonimleştirme</h3>
+    <form method="post" action="{% url 'anonimlestir' makale.id %}">
+        {% csrf_token %}
+        <button type="submit">Anonimleştir</button>
+    </form>
+
+    {% if anonim_makale %}
+        <h3>Anonimleştirilmiş Makale:</h3>
+        <p>{{ anonim_makale }}</p>
+        <a href="{% url 'anonim_indir' makale.id %}">Anonimleştirilmiş Makaleyi İndir</a>
+    {% endif %}
+
+    <!-- Hakem Atama -->
+    <h3>Hakem Atama</h3>
+    <form method="post">
+        {% csrf_token %}
+        <select name="hakem">
+            {% for hakem in hakem_listesi %}
+                <option value="{{ hakem.id }}">{{ hakem.isim }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Hakem Ata</button>
+    </form>
+
+    <!-- Hakem Geri Bildirimi -->
+    <h3>Hakem Geri Bildirimi</h3>
+    <form method="post">
+        {% csrf_token %}
+        <textarea name="hakem_geri_bildirim" rows="4" cols="50"></textarea><br>
+        <button type="submit">Geri Bildirimi Kaydet</button>
+    </form>
+
+    <!-- Log Alanı -->
+    <h3>Log Kayıtları</h3>
+    <ul>
+        {% for log in log_listesi %}
+            <li>{{ log.tarih }} - {{ log.aciklama }}</li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

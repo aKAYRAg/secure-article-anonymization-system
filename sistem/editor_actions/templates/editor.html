@@ -1,0 +1,25 @@
+<!-- makale_ekleme/editor.html -->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Makale Editor</title>
+</head>
+<body>
+    <h1>Makale Editor</h1>
+    
+    <h2>Tüm Makaleler</h2>
+    <ul>
+        {% for article in articles %}
+            <li>
+                <a href="{% url 'makale_detay' article.id %}">{{ article.makale_adi }}</a>
+                - {{ article.makale_tarih }} 
+            </li>
+        {% endfor %}
+    </ul>
+
+    <br>
+    <a href="#">Yeni Makale Oluştur</a>
+
+</body>
+</html>
